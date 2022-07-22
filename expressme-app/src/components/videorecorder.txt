@@ -1,0 +1,6 @@
+      /**<RecordVideo onSuccessUpload={(video_url) => {
+        console.log("Successfully uploaded video url", video_url);
+        PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent });
+      }} onErrorUpload={(err) => {
+        console.log("Error uploading video", err);
+      }} />*/
