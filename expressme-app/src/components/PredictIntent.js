@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import StopIcon from '@material-ui/icons/Stop';
 //Import the PlayIcon ui
 import PlayIcon from '@material-ui/icons/PlayArrow';
+
 function predict_intent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent }) {
     console.log("Inside Predict Intent");
     axios.post('/expressme', {
@@ -25,4 +26,12 @@ function PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIn
     console.log("Displaying Intent");
     predict_intent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent });
 }
+function predictNlpIntent(sentenceArray, { onSuccessPredictNlpIntent }, { onErrorPredictNlpIntent }) {
+    console.log("Inside Predict Intent");
+    axios.post('/expressme-intent', {
+        action: "NLP Text predicting Action",
+        sentences: sentenceArray
+    }).then(onSuccessPredictNlpIntent).catch(onErrorPredictNlpIntent);
+}
+
 export default PredictIntent;

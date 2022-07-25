@@ -4,3 +4,9 @@
       }} onErrorUpload={(err) => {
         console.log("Error uploading video", err);
       }} />*/
+
+      /**
+      Usage
+    <div style={{ width: '35%', height: '35%' }}>
+        <RecordVideo onSuccessUpload={(video_url) => PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent })} onErrorUpload={(err) => { console.log("Error uploading file for processing", err) }} />
+    </div>
