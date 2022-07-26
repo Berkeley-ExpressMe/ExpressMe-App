@@ -332,6 +332,13 @@ function App() {
                   </button>
                 </TableCell>
               </TableRow>
+              <TableRow>
+                <TableCell colSpan="2">
+                  <div style={{ width: '35%', height: '35%' }}>
+                    <RecordVideo onSuccessUpload={(video_url) => PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent })} onErrorUpload={(err) => { console.log("Error uploading file for processing", err) }} />
+                  </div>
+                </TableCell>
+              </TableRow>
             </TableHead>
             <TableBody><TableRow colSpan="2"><TableCell>"Click on Predict Intent (To Display Results)"</TableCell></TableRow></TableBody>
           </Table>
@@ -343,7 +350,7 @@ function App() {
           </div>
         </Container>
         <div className="player-wrapper">
-          <Player className="react-player" width="100%" height="100%" fluid={false} src={videoURL} playIcon="public/loading.png">
+          <Player className="react-player" fluid={true} src={videoURL} playIcon="public/loading.png">
             <LoadingSpinner />
             <BigPlayButton position="center" />
           </Player>
