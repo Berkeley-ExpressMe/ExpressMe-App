@@ -5,11 +5,12 @@ import './App.css';
 import { makeStyles } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Speech from 'react-speech';
 import Table from '@mui/material/Table';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
 import CheckBox from '@mui/material/Checkbox';
@@ -214,6 +215,48 @@ function App() {
     { field: 'intent', headerName: 'Predicted Intent', cellStyle: { fontWeight: "Bold" }, renderCell: renderSpeechIconForIntent, width: 300 },
     { field: 'nlpIntent', headerName: 'NLP Intent', cellStyle: { fontWeight: "Bold" }, renderCell: renderSpeechIconForIntent, width: 300 }
   ];
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
+  const existingVideos = [
+    {
+      id: '1AQh-1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh',
+      title: 'Person Eating Cake Drinking Coffee And Talking',
+      description: 'Video 1 Description',
+      thumbnail: 'https://drive.google.com/uc?export=download&id=1AQh-1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh',
+      videoUrl: 'https://drive.google.com/uc?export=download&id=1AQh-1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh',
+    },
+    {
+      id: '1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+      title: 'Video 2',
+      description: 'Video 2 Description',
+      thumbnail: 'https://drive.google.com/uc?export=download&id=1SaidOfC6zC0uvJQWNTmvQSdjKz-2_ekO',
+      videoUrl: 'https://drive.google.com/uc?export=download&id=1SaidOfC6zC0uvJQWNTmvQSdjKz-2_ekO'
+    },
+    {
+      id: '1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+      title: 'Video 3',
+      description: 'Video 3 Description',
+      thumbnail: 'https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+      videoUrl: 'https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+    },
+    {
+      id: '1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+      title: 'Video 4',
+      description: 'Video 4 Description',
+      thumbnail: 'https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+      videoUrl: 'https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+    },
+    {
+      id: '1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+      title: 'Video 5',
+      description: 'Video 5 Description',
+      thumbnail: 'https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+      videoUrl: 'https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h',
+    }
+  ];
 
   const Container = styled.div`
     display: flex;
@@ -231,47 +274,82 @@ function App() {
   `;
   return (
     <div float="right">
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline enableColorScheme />
+        <Container style={{ flex: 1 }}>
+          <Table id="Intent_table">
 
-      <Container>
-        <Table id="Intent_table">
-
-          <TableHead>
-            <TableRow>
-              <TableCell>Enter Video URL: <input type="text" size="100" id="video_url" placeholder="Enter Video URL" /></TableCell>
-              <TableCell>
-                <button color="primary" onClick={() => {
-                  var video_url = document.getElementById("video_url").value;
-                  setVideoURL(video_url);
-                  setData([]);
-                  PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent });
-                  document.getElementById("video_url").value = videoURL;
-                }} >
-                  <span>Predict Intent</span>
-                </button>
-              </TableCell>
-              <TableCell>
-                <button color="primary" onClick={() => {
-                  console.log("Going to predict NLP Suggestions for ", nlpData);
-                }}>
-                  <span>Predict Natural Suggestions</span>
-                </button>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody><TableRow colSpan="2"><TableCell>"Click on Predict Intent (To Display Results)"</TableCell></TableRow></TableBody>
-        </Table>
-        <div style={{ height: '600px', width: '50%' }} align="left">
-          {data && data.length > 0 && <DataGrid columns={columns} rows={data} />}
-          {nlpData && nlpData.length > 0 && <DataGrid columns={nlpColumns} rows={nlpResponse} />}
+            <TableHead>
+              <TableRow>
+                <TableCell>Enter Video URL: <input type="text" size="100" id="video_url" placeholder="Enter Video URL" /></TableCell>
+                <TableCell>
+                  <button color="primary" onClick={() => {
+                    var video_url = document.getElementById("video_url").value;
+                    setVideoURL(video_url);
+                    setData([]);
+                    PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent });
+                    document.getElementById("video_url").value = videoURL;
+                  }} >
+                    <span>Predict Intent</span>
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <button color="primary" onClick={() => {
+                    console.log("Going to predict NLP Suggestions for ", nlpData);
+                  }}>
+                    <span>Predict Natural Suggestions</span>
+                  </button>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Select from list of existing Videos:
+                  <Select id="existing_video_url">
+                    {
+                      existingVideos.map((item, index) => {
+                        return (
+                          <option key={index} value={item}>{item}</option>
+                        )
+                      }
+                      )
+                    }
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <button color="primary" onClick={() => {
+                    var video_url = document.getElementById("video_url").value;
+                    setVideoURL(video_url);
+                    setData([]);
+                    PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent });
+                  }} >
+                    <span>Predict Intent</span>
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <button color="primary" onClick={() => {
+                    console.log("Going to predict NLP Suggestions for ", nlpData);
+                  }}>
+                    <span>Predict Natural Suggestions</span>
+                  </button>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody><TableRow colSpan="2"><TableCell>"Click on Predict Intent (To Display Results)"</TableCell></TableRow></TableBody>
+          </Table>
+          <div style={{ height: '800px', width: '50%' }} align="left">
+            {data && data.length > 0 && <DataGrid columns={columns} rows={data} />}
+          </div>
+          <div style={{ height: '800px', width: '50%' }} align="right">
+            {nlpData && nlpData.length > 0 && <DataGrid columns={nlpColumns} rows={nlpData} />}
+          </div>
+        </Container>
+        <div className="player-wrapper">
+          <Player className="react-player" width="100%" height="100%" fluid={false} src={videoURL} playIcon="public/loading.png">
+            <LoadingSpinner />
+            <BigPlayButton position="center" />
+          </Player>
         </div>
-      </Container>
-      <VideoContainer>
-        <Player width="150px" height="200px" fluid={false} src={videoURL} playIcon="public/loading.png">
-          <LoadingSpinner />
-          <BigPlayButton position="center" />
-        </Player>
-      </VideoContainer>
-    </div>
+      </ThemeProvider>
+    </div >
   );
 }
 export default App;
