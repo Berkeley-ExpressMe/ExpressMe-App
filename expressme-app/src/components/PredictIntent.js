@@ -17,9 +17,10 @@ import PlayIcon from '@material-ui/icons/PlayArrow';
 
 function predict_intent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent }) {
     console.log("Inside Predict Intent");
-    axios.post('/expressme', {
-        video_url: video_url
-    }).then(onSuccessPredictIntent).catch(onErrorPredictIntent);
+    axios.post('/expressme',
+        {
+            video_url: video_url
+        }).then(onSuccessPredictIntent).catch(onErrorPredictIntent);
 }
 
 function PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent }) {
