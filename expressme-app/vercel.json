@@ -1,7 +1,7 @@
 {
     "headers": [
         {
-            "source": "http://54.157.180.16/expressme",
+            "source": "/expressme",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Credentials",
@@ -22,7 +22,7 @@
             ]
         },
         {
-            "source": "http://54.157.180.16/expressme-intent",
+            "source": "/expressme-intent",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Credentials",
