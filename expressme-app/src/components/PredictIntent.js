@@ -17,7 +17,7 @@ import PlayIcon from '@material-ui/icons/PlayArrow';
 
 function predict_intent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent }) {
     console.log("Inside Predict Intent");
-    axios.post('/expressme',
+    axios.post('http://54.157.180.16/expressme',
         {
             video_url: video_url
         }).then(onSuccessPredictIntent).catch(onErrorPredictIntent);
@@ -29,7 +29,7 @@ function PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIn
 }
 function predictNlpIntent(sentenceArray, { onSuccessPredictNlpIntent }, { onErrorPredictNlpIntent }) {
     console.log("Inside Predict Intent");
-    axios.post('/expressme-intent', {
+    axios.post('http://54.157.180.16/expressme-intent', {
         action: "NLP Text predicting Action",
         sentences: sentenceArray
     }).then(onSuccessPredictNlpIntent).catch(onErrorPredictNlpIntent);

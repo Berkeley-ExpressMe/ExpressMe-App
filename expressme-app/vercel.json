@@ -1,7 +1,7 @@
 {
     "headers": [
         {
-            "source": "/expressme(.*)",
+            "source": "http://54.157.180.16/expressme",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Credentials",
