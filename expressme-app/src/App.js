@@ -217,7 +217,7 @@ function App() {
   ];
   const darkTheme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: 'light',
     },
   });
   const existingVideos = [
@@ -301,37 +301,7 @@ function App() {
                   </button>
                 </TableCell>
               </TableRow>
-              <TableRow>
-                <TableCell>Select from list of existing Videos:
-                  <Select id="existing_video_url">
-                    {
-                      existingVideos.map((item, index) => {
-                        return (
-                          <option key={index} value={item}>{item}</option>
-                        )
-                      }
-                      )
-                    }
-                  </Select>
-                </TableCell>
-                <TableCell>
-                  <button color="primary" onClick={() => {
-                    var video_url = document.getElementById("video_url").value;
-                    setVideoURL(video_url);
-                    setData([]);
-                    PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent });
-                  }} >
-                    <span>Predict Intent</span>
-                  </button>
-                </TableCell>
-                <TableCell>
-                  <button color="primary" onClick={() => {
-                    console.log("Going to predict NLP Suggestions for ", nlpData);
-                  }}>
-                    <span>Predict Natural Suggestions</span>
-                  </button>
-                </TableCell>
-              </TableRow>
+
               <TableRow>
                 <TableCell colSpan="2">
                   <div style={{ width: '35%', height: '35%' }}>
@@ -350,7 +320,7 @@ function App() {
           </div>
         </Container>
         <div className="player-wrapper">
-          <Player className="react-player" fluid={true} src={videoURL} playIcon="public/loading.png">
+          <Player className="react-player" fluid={false} src={videoURL} playIcon="public/loading.png">
             <LoadingSpinner />
             <BigPlayButton position="center" />
           </Player>

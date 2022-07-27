@@ -15,9 +15,14 @@ import StopIcon from '@material-ui/icons/Stop';
 //Import the PlayIcon ui
 import PlayIcon from '@material-ui/icons/PlayArrow';
 
+export const isDev = () => !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
 function predict_intent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent }) {
     console.log("Inside Predict Intent");
-    axios.post('http://54.157.180.16/expressme',
+    console.log("The development environment is: ", process.env.NODE_ENV, isDev());
+    var expressMeURL = isDev() ? "/expressme" : "http://54.157.180.16/expressme";
+    console.log("The expressMeURL is: ", expressMeURL);
+    axios.post(expressMeURL,
         {
             video_url: video_url
         }).then(onSuccessPredictIntent).catch(onErrorPredictIntent);
@@ -28,8 +33,11 @@ function PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIn
     predict_intent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent });
 }
 function predictNlpIntent(sentenceArray, { onSuccessPredictNlpIntent }, { onErrorPredictNlpIntent }) {
-    console.log("Inside Predict Intent");
-    axios.post('http://54.157.180.16/expressme-intent', {
+    console.log("Inside Predict NLP Intent");
+    console.log("The development environment is: ", process.env.NODE_ENV, isDev());
+    var expressMeURL = isDev() ? "/expressme-intent" : "http://54.157.180.16/expressme-intent";
+    console.log("The expressMeURL-Intent is: ", expressMeURL);
+    axios.post(expressMeURL, {
         action: "NLP Text predicting Action",
         sentences: sentenceArray
     }).then(onSuccessPredictNlpIntent).catch(onErrorPredictNlpIntent);
