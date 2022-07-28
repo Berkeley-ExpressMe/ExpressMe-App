@@ -497,7 +497,7 @@ function App() {
           <Grid xs={12}>
             <Player
               className="react-player-grid"
-              fluid={false}
+              fluid={true}
               src={videoURL}
               playIcon="public/loading.png"
               preload="auto"
