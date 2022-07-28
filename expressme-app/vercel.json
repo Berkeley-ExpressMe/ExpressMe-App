@@ -1,7 +1,7 @@
 {
     "headers": [
         {
-            "source": "/expressme",
+            "source": "https://qldrp0kt07.execute-api.us-east-1.amazonaws.com/expressme",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Credentials",
@@ -22,7 +22,7 @@
             ]
         },
         {
-            "source": "/expressme-intent",
+            "source": "https://0p2q6srktf.execute-api.us-east-1.amazonaws.com/expressme-intent",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Credentials",
