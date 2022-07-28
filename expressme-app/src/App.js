@@ -43,6 +43,13 @@ function App() {
 
   const handleChange = (event) => {
     setVideo(event.target.value);
+    setVideoURL(event.target.value);
+    PredictIntent(
+      event.target.value,
+      { onSuccessPredictIntent },
+      { onErrorPredictIntent }
+    );
+    console.log("Set Video URL from menu item change", event.target.value);
   };
 
   function onSuccessPredictIntent(response) {
@@ -51,6 +58,7 @@ function App() {
     var contentToDisplay = "";
     //contentToDisplay = '<Table><TableHead><TableRow><TableCell>Action: </TableCell><TableCell align="right">Possible Intent :</TableCell></TableRow></TableHead><TableBody><TableRow>&nbsp;</TableRow>';
     var uniqueKey = 0;
+    setData([]);
     let rowData = [...data];
     //Iterate Sentences dict and display each sentence within it in a Dialog with Speech component
     for (var key in sentences) {
@@ -72,6 +80,7 @@ function App() {
       }
       //Iterate sentence array and display key and sentence in a table with ID Intent_table
     }
+
     setData(rowData);
     contentToDisplay += "<TableRow>&nbsp;</TableRow></TableBody></Table>";
     //set the contentToDisplay to the table with ID Intent_table
@@ -278,48 +287,39 @@ function App() {
     {
       id: "1AQh-1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh",
       title: "Person Eating Cake Drinking Coffee And Talking",
-      description: "Video 1 Description",
+      description: "Person Eating Cake Drinking Coffee And Talking",
       thumbnail:
-        "https://drive.google.com/uc?export=download&id=1AQh-1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh",
+        "https://drive.google.com/uc?export=download&id=1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh",
       videoUrl:
-        "https://drive.google.com/uc?export=download&id=1AQh-1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh",
+        "https://drive.google.com/uc?export=download&id=1BSQ99GD1naWBJENhXZuP1jT3GUjdhQXh"
     },
     {
       id: "1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
-      title: "Video 2",
-      description: "Video 2 Description",
+      title: "Lady Drinking Coffee",
+      description: "Lady Drinking Coffee",
       thumbnail:
-        "https://drive.google.com/uc?export=download&id=1SaidOfC6zC0uvJQWNTmvQSdjKz-2_ekO",
+        "https://drive.google.com/uc?export=download&id=1-Pha9ef6TS0dz20vwNymcLlUh9qFBg6C",
       videoUrl:
-        "https://drive.google.com/uc?export=download&id=1SaidOfC6zC0uvJQWNTmvQSdjKz-2_ekO",
+        "https://drive.google.com/uc?export=download&id=1-Pha9ef6TS0dz20vwNymcLlUh9qFBg6C"
     },
     {
       id: "1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
-      title: "Video 3",
-      description: "Video 3 Description",
+      title: "Buying coffee in restaurant",
+      description: "Handling Coffee",
       thumbnail:
-        "https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
+        "https://drive.google.com/uc?export=download&id=1WlHMREMeahw9Kah5MNLV31Ut401DbOqt",
       videoUrl:
-        "https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
+        "https://drive.google.com/uc?export=download&id=1WlHMREMeahw9Kah5MNLV31Ut401DbOqt"
     },
     {
       id: "1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
-      title: "Video 4",
-      description: "Video 4 Description",
+      title: "Person eating donuts with kids",
+      description: "Person eating donuts with kids",
       thumbnail:
         "https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
       videoUrl:
-        "https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
-    },
-    {
-      id: "1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
-      title: "Video 5",
-      description: "Video 5 Description",
-      thumbnail:
-        "https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
-      videoUrl:
-        "https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h",
-    },
+        "https://drive.google.com/uc?export=download&id=1AQh-kFSUa6r6iSNUFFI_PqrKtYpmN77h"
+    }
   ];
 
   const Container = styled.div`
@@ -423,6 +423,7 @@ function App() {
         {/* Row 2 */}
         <Grid container>
           <Grid xs={12} item>
+            &nbsp;&nbsp;&nbsp;<span><b>Select a Video to predict Intent</b></span>&nbsp;&nbsp;&nbsp;
             <Select
               className="expressMe-text"
               value={video}
@@ -440,6 +441,7 @@ function App() {
                 );
               })}
             </Select>
+
           </Grid>
         </Grid>
         {/* Row 2 */}

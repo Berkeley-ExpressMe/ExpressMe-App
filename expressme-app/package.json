@@ -26,6 +26,7 @@
     "video-react": "^0.15.0",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "http://54.157.180.16",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -38,7 +39,6 @@
       "react-app/jest"
     ]
   },
-  "proxy": "http://54.157.180.16",
   "browserslist": {
     "production": [
       ">0.2%",
