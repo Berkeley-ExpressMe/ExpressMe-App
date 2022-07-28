@@ -329,14 +329,14 @@ function App() {
   const Container = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     justify-content: left;
     height: 100%;
   `;
   const VideoContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: right;
+    align-items: center;
     justify-content: right;
     height: 100%;
   `;
