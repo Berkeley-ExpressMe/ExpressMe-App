@@ -479,13 +479,13 @@ function App() {
         {/* Row 4 */}
 
         {/* Row 5 */}
-        <div style={{ height: "800px", width: "50%" }} align="left">
+        <div style={{ height: "800px", width: "100%" }} align="left">
           {isLoading ? <LoadingSpinner /> : null}
           {data && data.length > 0 && (
             <DataGrid columns={columns} rows={data} />
           )}
         </div>
-        <div style={{ height: "800px", width: "50%" }} align="right">
+        <div style={{ height: "800px", width: "100%" }} align="right">
           {nlpData && nlpData.length > 0 && (
             <DataGrid columns={nlpColumns} rows={nlpData} />
           )}
