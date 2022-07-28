@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import { Player, LoadingSpinner, BigPlayButton } from "video-react";
+import { Player, BigPlayButton } from "video-react";
 import "./App.css";
 
 import { makeStyles } from "@mui/material/styles";
@@ -29,6 +29,7 @@ import RecordVideo from "./components/RecordVideo";
 import PredictIntent from "./components/PredictIntent";
 import PlayArrow from "@material-ui/icons/PlayArrow";
 import { alignProperty } from "@mui/material/styles/cssUtils";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 //Add <Table /> component as a parameter to the PredictIntent function
 
@@ -44,6 +45,7 @@ function App() {
   const handleChange = (event) => {
     setVideo(event.target.value);
     setVideoURL(event.target.value);
+    setIsLoading(true);
     PredictIntent(
       event.target.value,
       { onSuccessPredictIntent },
@@ -80,7 +82,7 @@ function App() {
       }
       //Iterate sentence array and display key and sentence in a table with ID Intent_table
     }
-
+    setIsLoading(false);
     setData(rowData);
     contentToDisplay += "<TableRow>&nbsp;</TableRow></TableBody></Table>";
     //set the contentToDisplay to the table with ID Intent_table
@@ -88,6 +90,7 @@ function App() {
     //document.getElementById("results").innerHTML = contentToDisplay;
   }
   function onErrorPredictIntent(err) {
+    setIsLoading(false);
     //var contentToDisplay = '<div>Error getting Intent: ' + err + '</div>';
     console.log("Error predicting intent", err);
     //return (contentToDisplay);
@@ -133,6 +136,7 @@ function App() {
 
   //Create a Container that holds VideoRecorder and other components
   const [data, setData] = useState([]); //table data
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     console.log("Inside useEffect", data);
     if (data && data.length > 0) {
@@ -391,6 +395,7 @@ function App() {
                 className="expressMe-text"
                 color="primary"
                 onClick={() => {
+                  setIsLoading(true);
                   var video_url = document.getElementById("video_url").value;
                   setVideoURL(video_url);
                   setData([]);
@@ -475,6 +480,7 @@ function App() {
 
         {/* Row 5 */}
         <div style={{ height: "800px", width: "50%" }} align="left">
+          {isLoading ? <LoadingSpinner /> : null}
           {data && data.length > 0 && (
             <DataGrid columns={columns} rows={data} />
           )}
@@ -496,7 +502,6 @@ function App() {
               playIcon="public/loading.png"
               preload="auto"
             >
-              <LoadingSpinner />
               <BigPlayButton position="center" />
             </Player>
           </Grid>
