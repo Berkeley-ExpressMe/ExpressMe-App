@@ -20,7 +20,7 @@ export const isDev = () => !process.env.NODE_ENV || process.env.NODE_ENV === 'de
 function predict_intent(video_url, { onSuccessPredictIntent }, { onErrorPredictIntent }) {
     console.log("Inside Predict Intent");
     console.log("The development environment is: ", process.env.NODE_ENV, isDev());
-    var expressMeURL = isDev() ? "/expressme" : "http://54.157.180.16/expressme";
+    var expressMeURL = isDev() ? "/expressme" : "https://qldrp0kt07.execute-api.us-east-1.amazonaws.com/expressme";
     console.log("The expressMeURL is: ", expressMeURL);
     axios.post(expressMeURL,
         {
@@ -35,7 +35,7 @@ function PredictIntent(video_url, { onSuccessPredictIntent }, { onErrorPredictIn
 function predictNlpIntent(sentenceArray, { onSuccessPredictNlpIntent }, { onErrorPredictNlpIntent }) {
     console.log("Inside Predict NLP Intent");
     console.log("The development environment is: ", process.env.NODE_ENV, isDev());
-    var expressMeURL = isDev() ? "/expressme-intent" : "http://54.157.180.16/expressme-intent";
+    var expressMeURL = isDev() ? "/expressme-intent" : "https://0p2q6srktf.execute-api.us-east-1.amazonaws.com/expressme-intent";
     console.log("The expressMeURL-Intent is: ", expressMeURL);
     axios.post(expressMeURL, {
         action: "NLP Text predicting Action",
