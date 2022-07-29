@@ -27,6 +27,7 @@ import React, { useState, useEffect } from "react";
 
 import RecordVideo from "./components/RecordVideo";
 import PredictIntent from "./components/PredictIntent";
+import predictNlpIntent from "./components/predictNlpIntent";
 import PlayArrow from "@material-ui/icons/PlayArrow";
 import { alignProperty } from "@mui/material/styles/cssUtils";
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -60,8 +61,8 @@ function App() {
     var contentToDisplay = "";
     //contentToDisplay = '<Table><TableHead><TableRow><TableCell>Action: </TableCell><TableCell align="right">Possible Intent :</TableCell></TableRow></TableHead><TableBody><TableRow>&nbsp;</TableRow>';
     var uniqueKey = 0;
-    setData([]);
-    let rowData = [...data];
+
+    let rowData = [];
     //Iterate Sentences dict and display each sentence within it in a Dialog with Speech component
     for (var key in sentences) {
       var sentenceArr = sentences[key];
@@ -97,40 +98,32 @@ function App() {
   }
   function onSuccessPredictNlpIntent(response) {
     console.log("Successfully predicted nlp intent", response.data);
-    var sentences = response.data.sentences;
-    var contentToDisplay = "";
-    //contentToDisplay = '<Table><TableHead><TableRow><TableCell>Action: </TableCell><TableCell align="right">Possible Intent :</TableCell></TableRow></TableHead><TableBody><TableRow>&nbsp;</TableRow>';
-    var uniqueKey = 0;
-    let rowData = [...data];
-    //Iterate Sentences dict and display each sentence within it in a Dialog with Speech component
+    var sentences = response.data;
+    var unique_key = 0;
+    //Iterate the sentences dict and add each sentence to an array with ID as unique_key and increment it
+    let rowData = [];
     for (var key in sentences) {
+      //Iterate the dict on sentences[key] and add each sentence to the rowData with ID as unique_key and increment it
       var sentenceArr = sentences[key];
       console.log("The Action is ", key);
       console.log("The sentence is ", sentenceArr);
-      //contentToDisplay += '<TableRow colSpan="2"><TableCell>Action :' + key + '</TableCell></TableRow><TableRow>&nbsp;</TableRow>';
       for (var index in sentenceArr) {
-        uniqueKey++;
-        console.log("The key to be pushed is ", uniqueKey);
+        unique_key++;
+        console.log("The key to be pushed is ", unique_key);
         rowData.push({
-          id: uniqueKey,
-          action: key,
-          intent: sentenceArr[index],
+          id: unique_key,
+          action: key.replace("_", " "),
+          intent: sentenceArr[index].replace("_", " ").replace("<|endoftext|>", ""),
         });
         console.log("The data to be pushed is ", rowData);
-        //
-        //setRows.push(rows, { key: index, action: key, intent: sentenceArr[index] });
       }
-      //Iterate sentence array and display key and sentence in a table with ID Intent_table
     }
-    setData(rowData);
-    contentToDisplay += "<TableRow>&nbsp;</TableRow></TableBody></Table>";
-    //set the contentToDisplay to the table with ID Intent_table
-    console.log("The content to display is ", contentToDisplay);
-    //document.getElementById("results").innerHTML = contentToDisplay;
+    setIsLoading(false);
+    setNlpResponse(rowData);
   }
   function onErrorPredictNlpIntent(err) {
     //var contentToDisplay = '<div>Error getting Intent: ' + err + '</div>';
-    console.log("Error predicting intent", err);
+    console.log("Error predicting NLP intent", err);
     //return (contentToDisplay);
   }
 
@@ -145,10 +138,11 @@ function App() {
   }, [data]);
   const [nlpData, setNlpData] = useState([]);
 
+
   useEffect(() => {
     console.log("Inside useEffect", nlpData);
     if (nlpData && nlpData.length > 0) {
-      console.log("Having data going to set it", nlpData);
+      console.log("Having NLP data going to set it", nlpData);
     }
   }, [nlpData]);
   const [nlpResponse, setNlpResponse] = useState([]);
@@ -250,13 +244,7 @@ function App() {
       cellStyle: { fontWeight: "Bold" },
       renderCell: renderSpeechIconForIntent,
       width: 300,
-    },
-    {
-      field: "SelectForNLP",
-      headerName: "Select an Intent to get Natural suggestions",
-      renderCell: renderCheckBoxForIntent,
-      width: 350,
-    },
+    }
   ];
 
   const nlpColumns = [
@@ -265,21 +253,15 @@ function App() {
       headerName: "Predicted Action",
       cellStyle: { fontWeight: "Bold" },
       renderCell: renderSpeechIconForAction,
-      width: 150,
-    },
-    {
-      field: "intent",
-      headerName: "Predicted Intent",
-      cellStyle: { fontWeight: "Bold" },
-      renderCell: renderSpeechIconForIntent,
-      width: 300,
+      width: 250,
     },
     {
       field: "nlpIntent",
       headerName: "NLP Intent",
       cellStyle: { fontWeight: "Bold" },
       renderCell: renderSpeechIconForIntent,
-      width: 300,
+      width: 600
+
     },
   ];
   const darkTheme = createTheme({
@@ -415,7 +397,13 @@ function App() {
                 className="expressMe-text"
                 color="primary"
                 onClick={() => {
-                  console.log("Going to predict NLP Suggestions for ", nlpData);
+                  setIsLoading(true);
+                  setNlpResponse([]);
+                  predictNlpIntent(
+                    nlpData,
+                    { onSuccessPredictNlpIntent },
+                    { onErrorPredictNlpIntent }
+                  );
                 }}
               >
                 <span>Predict Natural Suggestions</span>
@@ -455,12 +443,15 @@ function App() {
         <Grid container sx={{ justifyContent: "center", height: "70vh" }}>
           <Grid xs={6} item>
             <RecordVideo
-              onSuccessUpload={(video_url) =>
-                PredictIntent(
-                  video_url,
-                  { onSuccessPredictIntent },
-                  { onErrorPredictIntent }
-                )
+              onSuccessUpload={
+                (video_url) => {
+                  setIsLoading(true);
+                  PredictIntent(
+                    video_url,
+                    { onSuccessPredictIntent },
+                    { onErrorPredictIntent }
+                  );
+                }
               }
               onErrorUpload={(err) => {
                 console.log("Error uploading file for processing", err);
@@ -471,9 +462,9 @@ function App() {
         {/* Row 3 */}
 
         {/* Row 4 */}
-        <Grid container>
-          <Grid item>
-            <span>Click on Predict Intent (To Display Results)</span>
+        <Grid container alignContent={"center"}>
+          <Grid item align={"center"}>
+            Results will be displayed here
           </Grid>
         </Grid>
         {/* Row 4 */}
@@ -482,17 +473,30 @@ function App() {
         <div style={{ height: "800px", width: "100%" }} align="left">
           {isLoading ? <LoadingSpinner /> : null}
           {data && data.length > 0 && (
-            <DataGrid columns={columns} rows={data} />
+            <DataGrid columns={columns} rows={data} checkboxSelection onSelectionModelChange={
+              (ids) => {
+                //Clear nlpData                
+                //Get the selected rows from ids
+                var selectedRows = data.filter((row) => ids.includes(row.id));
+                let nlpDataArray = [];
+                //Iterate selectedRows and get intent of each row and set nlpData
+                selectedRows.forEach((row) => {
+                  nlpDataArray.push(row.intent);
+                });
+                setNlpData(nlpDataArray);
+                console.log("Selected rows are ", selectedRows, nlpDataArray);
+              }
+            } />
           )}
         </div>
-        <div style={{ height: "800px", width: "100%" }} align="right">
+        <div style={{ height: "800px", width: "100%" }} align="center">
           {nlpData && nlpData.length > 0 && (
-            <DataGrid columns={nlpColumns} rows={nlpData} />
+            <DataGrid columns={nlpColumns} rows={nlpResponse} />
           )}
         </div>
-        {/* Row 5 */}
+        {/* Row 2 */}
 
-        {/* Row 6 */}
+        {/* Row 3 */}
         <Grid container>
           <Grid xs={12}>
             <Player
