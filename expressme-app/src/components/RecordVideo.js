@@ -3,7 +3,7 @@ import UploadVideoToS3 from './UploadVideoToS3';
 
 function RecordVideo({ onSuccessUpload }, { onErrorUpload }) {
     return (
-        <VideoRecorder isFlipped={false}
+        <VideoRecorder isFlipped showReplayControls
             onRecordingComplete={(videoBlob) => {
                 console.log(videoBlob);
                 UploadVideoToS3(videoBlob, onSuccessUpload = { onSuccessUpload }, onErrorUpload = { onErrorUpload });
